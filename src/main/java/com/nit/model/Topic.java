@@ -1,8 +1,14 @@
 package com.nit.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Topic {
 
-	private String id;
+	//These fields map to the database table columns.
+	@Id
+	private String id; 
 	private String name;
 	private String description;
 	

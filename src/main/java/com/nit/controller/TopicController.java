@@ -42,15 +42,19 @@ public class TopicController {
 		topicService.addTopic(topic);
 	}
 	
+	//Update the individual resource using PUT request
 	@RequestMapping(method = RequestMethod.PUT, value = "/topics/{id}")
 	public void updateTopic(@RequestBody Topic topic, @PathVariable String id) {
 		topicService.updateTopic(id, topic);
 	}
 	
+	//delete the individual resource using DELETE request
 	@RequestMapping(method = RequestMethod.DELETE, value = "/topics/{id}")
 	public void deleteTopic(@PathVariable String id) {
 		topicService.deleteTopic(id);
 	}
+	
+	
 	
 	
 }

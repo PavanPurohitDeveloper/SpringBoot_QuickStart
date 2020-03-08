@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nit.model.Topic;
+import com.nit.repository.TopicRespository;
 
 @Service
 public class TopicService {
+	
+	@Autowired
+	private TopicRespository topicRespository;
 
 	//contains a List of Topics
 	//Created a List of hard coded values using Arrays.asList... Arrays.asList creates an Immutable list
@@ -22,7 +27,12 @@ public class TopicService {
 	
 	//Get All the Topics
 	public List<Topic> getAllTopics(){
-		return topics;
+		//return topics;
+		List<Topic> topicsList = new ArrayList<Topic>();
+		topicRespository.findAll() //It gets iterable
+		.forEach(topicsList :: add); //for each of the elements found, and put that element into topicsList..use method reference
+		
+		return topicsList;
 	}
 	
 	//get particular topic ..its going to return one topic object
@@ -30,9 +40,10 @@ public class TopicService {
 		return topics.stream().filter(t -> t.getId().equals(id)).findFirst().get();
 	}
 
-	//Creating a new Topic
+	//Creating a new Topic //save the topic into database table..
 	public void addTopic(Topic topic) {
-		topics.add(topic);
+		//topics.add(topic);
+		topicRespository.save(topic);
 	}
 
 	//update the Topic based on the Topic Id
