@@ -3,6 +3,7 @@ package com.nit.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,10 @@ public class TopicService {
 	}
 	
 	//get particular topic ..its going to return one topic object
+	//call to database and get the particular topic Id
 	public Topic getTopic(String id) {
-		return topics.stream().filter(t -> t.getId().equals(id)).findFirst().get();
+		//return topics.stream().filter(t -> t.getId().equals(id)).findFirst().get();
+		return topicRespository.findById(id).orElse(new Topic());
 	}
 
 	//Creating a new Topic //save the topic into database table..
@@ -49,18 +52,18 @@ public class TopicService {
 	//update the Topic based on the Topic Id
 	public void updateTopic(String id, Topic topic) {
 		//Loop the topics
-		for(int i=0; i < topics.size(); i++) {
-			Topic t = topics.get(i); // for each topic in that List compare the Id
-			if(t.getId().equals(id)) { //If it matches, send the updated topic.
-				topics.set(i, topic);
-				return;
-			}
-		}
+		/*
+		 * for(int i=0; i < topics.size(); i++) { Topic t = topics.get(i); // for each
+		 * topic in that List compare the Id if(t.getId().equals(id)) { //If it matches,
+		 * send the updated topic. topics.set(i, topic); return; } }
+		 */
+		topicRespository.save(topic); // It can do both Add and Update operations. I need to pass an Topic instance
+		
 	}
 	
 	//Delete the topic
 	public void deleteTopic(String id) {
-		topics.removeIf(t -> t.getId().equals(id));
+		// topics.removeIf(t -> t.getId().equals(id));
+		topicRespository.deleteById(id);
 	}
-
 }
